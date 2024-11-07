@@ -22,31 +22,26 @@ def convertir_datos():
         df = pd.read_excel('Book1.xlsx')  # Cambia la ruta si es necesario
         # Eliminar espacios en blanco en los nombres de columnas y reemplazar NaN
         df.columns = df.columns.str.strip()
-        df.columns = [str(col) if pd.notna(col) else "Unnamed" for col in df.columns]
-
-        # Convertir columnas específicas de binario a decimal
-        for col in ['OP1 (5)', 'OP2 (5)']:
-            df[col] = df[col].apply(lambda x: binario_a_decimal(x) if isinstance(x, str) else x)
+        print("Columnas del DataFrame:", df.columns)  # Verificar los nombres de las columnas
+        df.columns = ['op 6', 'rs 5', 'rt 5', 'rd 5', 'shawt 5', 'funct 6']  # Ajustar nombres si es necesario
 
         # Convertir las columnas de decimal a binario
-        df['We_BR (1)'] = df['We_BR (1)'].apply(lambda x: decimal_a_binario(x, 1))
-        df['ALUOP (3)'] = df['ALUOP (3)'].apply(lambda x: decimal_a_binario(x, 3))
-        df['DirRam (5)'] = df['DirRam (5)'].apply(lambda x: decimal_a_binario(x, 5))
-        df['We_Ram (1)'] = df['We_Ram (1)'].apply(lambda x: decimal_a_binario(x, 1))
-
-        # Convertir las columnas de decimal a binario para OP1 y OP2
-        df['OP1 (5)'] = df['OP1 (5)'].apply(lambda x: decimal_a_binario(x, 5))
-        df['OP2 (5)'] = df['OP2 (5)'].apply(lambda x: decimal_a_binario(x, 5))
+        df['op 6'] = df['op 6'].apply(lambda x: decimal_a_binario(x, 6))
+        df['rs 5'] = df['rs 5'].apply(lambda x: decimal_a_binario(x, 5))
+        df['rt 5'] = df['rt 5'].apply(lambda x: decimal_a_binario(x, 5))
+        df['rd 5'] = df['rd 5'].apply(lambda x: decimal_a_binario(x, 5))
+        df['shawt 5'] = df['shawt 5'].apply(lambda x: decimal_a_binario(x, 5))
+        df['funct 6'] = df['funct 6'].apply(lambda x: decimal_a_binario(x, 6))
 
         # Filtrar solo filas con datos válidos
-        df_filtrado = df.dropna(subset=['OP1 (5)', 'OP2 (5)', 'We_BR (1)', 'ALUOP (3)', 'DirRam (5)', 'We_Ram (1)'])
+        df_filtrado = df.dropna(subset=['op 6', 'rs 5', 'rt 5', 'rd 5', 'shawt 5', 'funct 6'])
 
         # Guardar los datos convertidos en un archivo .txt
-        archivo_salida = 'datos_convertidos.txt'
+        archivo_salida = '32instructions.txt'
         with open(archivo_salida, 'w') as f:
             for index, row in df_filtrado.iterrows():
                 # Cambiamos el orden y formato según lo solicitado
-                f.write(f"{row['OP1 (5)']}{row['OP2 (5)']}{int(row['We_BR (1)'])}{row['ALUOP (3)']}{row['DirRam (5)']}{int(row['We_Ram (1)'])}\n")
+                f.write(f"{row['op 6']}{row['rs 5']}{row['rt 5']}{row['rd 5']}{row['shawt 5']}{row['funct 6']}\n")
 
         etiqueta.config(text=f"Datos convertidos y guardados en: {archivo_salida}")
 
